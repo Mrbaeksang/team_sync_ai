@@ -31,8 +31,8 @@ export default function ProjectsPage() {
               </p>
             ) : (
               <ul className="w-full mb-4">
-                {projects.map((proj, i) => (
-                  <li key={i} className="border-b last:border-b-0 py-2 px-1 text-foreground">
+                {projects.map((proj) => (
+                  <li key={proj} className="border-b last:border-b-0 py-2 px-1 text-foreground">
                     {proj}
                   </li>
                 ))}

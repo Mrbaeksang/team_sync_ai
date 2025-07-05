@@ -1,24 +1,78 @@
-Error: ./components/messages.tsx:2:1
-Export [32mGreeting[39m doesn't exist in target module
-[0m [90m 1 |[39m [36mimport[39m { [33mPreviewMessage[39m[33m,[39m [33mThinkingMessage[39m } [36mfrom[39m [32m'./message'[39m[33m;[39m[0m
-[0m[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { [33mGreeting[39m } [36mfrom[39m [32m'./greeting'[39m[33m;[39m[0m
-[0m [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[0m
-[0m [90m 3 |[39m [36mimport[39m { memo } [36mfrom[39m [32m'react'[39m[33m;[39m[0m
-[0m [90m 4 |[39m [36mimport[39m type { [33mVote[39m } [36mfrom[39m [32m'@/lib/db/schema'[39m[33m;[39m[0m
-[0m [90m 5 |[39m [36mimport[39m equal [36mfrom[39m [32m'fast-deep-equal'[39m[33m;[39m[0m
+"use client";
 
-The export [32mGreeting[39m was not found in module [1m[31m[project]/components/greeting.tsx [app-client] (ecmascript)[39m[22m.
-Did you mean to import [32mdefault[39m?
-All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
-    at BuildError (http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__d1e9cc7e._.js:17492:41)
-    at react-stack-bottom-frame (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:12381:24)
-    at renderWithHooks (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:3396:24)
-    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:4720:21)
-    at beginWork (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:5351:24)
-    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:631:20)
-    at performUnitOfWork (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:7930:97)
-    at workLoopSync (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:7823:40)
-    at renderRootSync (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:7806:13)
-    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:7547:175)
-    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/cec93_react-dom_85968617._.js:8379:9)
-    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules__pnpm_3346111e._.js:1490:64)
+import * as React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+export default function ProjectsPage() {
+  const [showForm, setShowForm] = React.useState(false);
+  const [projectName, setProjectName] = React.useState("");
+  // 실제 프로젝트 목록은 추후 server action에서 관리 예정
+  const [projects] = React.useState<string[]>([]);
+
+  const handleCreateProject = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 추후 server action으로 대체
+    console.log("프로젝트 생성:", projectName);
+    setProjectName("");
+    setShowForm(false);
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-start min-h-screen bg-background px-4 py-12">
+      <div className="w-full max-w-2xl">
+        <h1 className="text-3xl font-bold mb-8 text-foreground">내 프로젝트</h1>
+        <Card className="w-full border shadow-sm mb-8">
+          <CardContent className="py-8 px-6 flex flex-col items-center">
+            {projects.length === 0 ? (
+              <p className="text-muted-foreground text-center mb-4">
+                아직 생성된 프로젝트가 없습니다.
+              </p>
+            ) : (
+              <ul className="w-full mb-4">
+                {projects.map((proj) => (
+                  <li key={proj} className="border-b last:border-b-0 py-2 px-1 text-foreground">
+                    {proj}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {showForm ? (
+              <form onSubmit={handleCreateProject} className="w-full flex gap-2 mt-4">
+                <Input
+                  placeholder="프로젝트 이름을 입력하세요"
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                  autoFocus
+                  className="flex-1"
+                />
+                <Button type="submit" disabled={!projectName.trim()}>
+                  생성
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => {
+                    setShowForm(false);
+                    setProjectName("");
+                  }}
+                >
+                  취소
+                </Button>
+              </form>
+            ) : (
+              <Button
+                onClick={() => setShowForm(true)}
+                className="w-full mt-2"
+                size="lg"
+              >
+                새 프로젝트 생성
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}

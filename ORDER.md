@@ -1,8 +1,6 @@
-git add . && git commit -m "feat: 초기 UI 컴포넌트 및 프로젝트 페이지 구현
+git add . && git commit -m "feat: AI 설문 페이지 구현 준비
 
-- `components/greeting.tsx`: 초기 인사말 및 프로젝트 시작 버튼 컴포넌트 구현
-- `app/projects/page.tsx`: 프로젝트 목록 및 새 프로젝트 생성 UI 구현
-- `app/projects/[id]/invite/page.tsx`: 팀원 초대 링크 생성 및 복사 UI 구현"
+- `app/projects/[id]/survey/page.tsx` 파일 생성 지시사항 추가"
 
 # AI 팀 빌딩 매니저 프로젝트 개발 지시사항
 
