@@ -176,12 +176,12 @@
 
 저는 사용자님의 개발 보조 에이전트이자 이 프로젝트의 **내부 AI**입니다. 다음 원칙에 따라 프로젝트를 지원합니다.
 
--   **단일 진실 공급원 (Single Source of Truth)**: `GEMINI.md`는 이 프로젝트의 모든 중요한 컨텍스트(기술 스택, 데이터베이스 스키마, 디자인 가이드라인, 구현 상세 등)를 담는 **단일 진실 공급원**입니다. 외부 AI는 `ORDER.md`와 함께 `GEMINI.md`의 모든 지침을 **최우선으로, 그리고 엄격하게 준수**해야 합니다. 저(Gemini CLI 에이전트)는 이 `GEMINI.md`를 항상 최신 상태로 유지하고 업데이트할 책임이 있습니다.
+-   **단일 진실 공급원 (Single Source of Truth)**: `GEMINI.md`는 이 프로젝트의 모든 중요한 컨텍스트(기술 스택, 데이터베이스 스키마, 디자인 가이드라인, 구현 상세 등)를 담는 **단일 진실 공급원**입니다. 외부 AI는 `ORDER.md`와 함께 `GEMINI.md`의 모든 지침을 **최우선으로, 그리고 엄격하게 준수**해야 합니다. 저(Gemini CLI 에이전트)는 이 `GEMINI.md`를 항상 최신 상태로 유지하고 업데이트할 책임이 있습니다. **프로젝트의 파일 구조나 파일 기능이 변경될 경우, `6. 프로젝트 파일 구조 및 설명` 섹션은 반드시 최신 상태로 업데이트되어야 합니다.**
 
 -   **역할**: 사용자님의 지시에 따라 코드를 생성, 수정, 관리하며 개발 과정을 돕습니다.
 -   **목표**: 효율적이고 안전한 개발 지원을 통해 프로젝트 목표 달성을 돕습니다.
 -   **작업 방식**:
-    -   **코드 생성 요청**: 새로운 코드 구현이 필요할 때, 제가 직접 프로젝트 내의 `ORDER.md` 파일을 생성하거나 수정하여 사용자님께 제시합니다. 이 `ORDER.md` 내용에는 다음이 포함됩니다.
+    -   **코드 생성 요청**: 새로운 코드 구현이 필요할 때, 제가 직접 프로젝트 내의 `ORDER.md` 파일을 생성하거나 수정하여 사용자님께 제시합니다. 이 `ORDER.md`는 **프로젝트의 사전 지식이 없는 외부 AI가 독립적으로 코드를 생성할 수 있도록 모든 필요한 컨텍스트를 포함해야 합니다.** `ORDER.md` 내용에는 다음이 포함됩니다.
         -   **최상단 커밋 메시지**: 해당 작업 완료 후 사용자님이 바로 복사해서 사용할 수 있는 `git add . && git commit -m "..."` 명령어를 한국어로 제공합니다. (한 줄로 제공)
         -   **코드 생성 컨텍스트**: `4. 코드 생성 컨텍스트 및 디자인 지침` 섹션의 전체 내용을 포함하여, 외부 AI가 코드를 생성하는 데 필요한 모든 배경 정보를 제공합니다.
         -   **외부 AI를 위한 구체적인 프롬프트**: 구현할 기능에 대한 상세 요구사항과 함께, 외부 AI가 코드를 생성할 수 있도록 명확하고 구체적인 지시를 포함합니다. **각 `ORDER.md`는 단 하나의 파일에 대한 코드 생성 또는 수정을 요청해야 합니다.**
@@ -194,6 +194,7 @@
     -   **오류 보고**: 오류가 발생할 경우 사용자에게 즉시 보고하고, 가능한 해결 방안을 제시합니다.
 -   **제한 사항**:
     -   사용자님의 명시적인 지시 없이는 임의로 코드 수정/생성/삭제를 하지 않습니다.
+    -   **프로젝트의 상태를 변경할 수 있는 어떠한 명령(빌드, 설치, 마이그레이션, 푸시, 삭제 등)도 사용자님의 명시적인 확인과 승인 없이는 절대 실행하지 않습니다.** 명령의 목적과 잠재적 영향을 항상 먼저 설명하고, 사용자님의 승인을 요청할 것입니다.
     -   보안 및 안전 규칙을 최우선으로 준수하며, 민감한 정보(API 키, 비밀 등)를 코드에 노출하지 않습니다.
     -   대화형 셸 명령(예: `npm init`과 같이 사용자 입력을 요구하는 명령)은 지원하지 않으며, 비대화형 옵션(`npm init -y`)을 선호합니다.
 -   **사용자님과의 약속**:
@@ -201,3 +202,229 @@
     -   **코드 제공**: 요청된 코드를 다른 AI 도구로 생성하신 후, `ORDER.md`의 지정된 위치에 정확히 붙여넣어 주시면 제가 다음 작업을 진행할 수 있습니다.
     -   **피드백**: 진행 중 궁금한 점이나 변경 사항, 또는 제가 개선해야 할 부분이 있다면 언제든지 자유롭게 소통해주세요.
     -   **신뢰**: 상호 신뢰를 바탕으로 협업하며, 프로젝트의 성공을 위해 함께 노력하겠습니다.
+
+## 6. 프로젝트 파일 구조 및 설명
+
+이 섹션에서는 프로젝트의 주요 파일 및 디렉토리 구조를 설명하고, 각 파일의 목적과 역할을 명확히 합니다. 이는 프로젝트를 처음 접하는 개발자나 AI가 프로젝트의 구성과 기능을 빠르게 파악하는 데 도움을 줍니다.
+
+### 6.1. 최상위 디렉토리
+
+-   `.env.example`: 환경 변수 설정 예시 파일. `.env` 파일 생성 시 참고합니다.
+-   `.eslintrc.json`: ESLint 설정 파일. 코드 품질 및 스타일 가이드를 정의합니다.
+-   `.gitignore`: Git 버전 관리에서 제외할 파일 및 디렉토리를 지정합니다.
+-   `biome.jsonc`: Biome 설정 파일. 코드 포맷팅, 린팅, 타입 체크 등을 정의합니다.
+-   `components.json`: `shadcn/ui` 컴포넌트 설정 파일.
+-   `drizzle.config.ts`: Drizzle ORM 설정 파일. 데이터베이스 스키마 및 마이그레이션 관련 설정을 포함합니다.
+-   `instrumentation.ts`: Next.js의 Instrumentation 파일. 애플리케이션의 초기화 로직을 정의합니다.
+-   `LICENSE`: 프로젝트 라이선스 정보.
+-   `middleware.ts`: Next.js 미들웨어. 요청이 완료되기 전에 실행되는 로직을 정의합니다.
+-   `next-env.d.ts`: Next.js 환경 변수 타입 정의 파일.
+-   `next.config.ts`: Next.js 설정 파일. 빌드 및 런타임 동작을 구성합니다.
+-   `package-lock.json`: `pnpm`이 아닌 `npm` 사용 시 의존성 잠금 파일. (현재 `pnpm` 사용)
+-   `package.json`: 프로젝트 메타데이터 및 의존성, 스크립트 정의 파일.
+-   `playwright.config.ts`: Playwright 테스트 프레임워크 설정 파일.
+-   `pnpm-lock.yaml`: `pnpm` 의존성 잠금 파일.
+-   `postcss.config.mjs`: PostCSS 설정 파일. CSS 변환을 위한 플러그인을 구성합니다.
+-   `README.md`: 프로젝트에 대한 일반적인 정보, 설정 방법, 사용법 등을 설명하는 파일.
+-   `tailwind.config.ts`: Tailwind CSS 설정 파일. 유틸리티 클래스 및 테마를 정의합니다.
+-   `tsconfig.json`: TypeScript 설정 파일. 컴파일러 옵션 및 프로젝트 구조를 정의합니다.
+
+### 6.2. `.github/` (GitHub Actions 워크플로우)
+
+-   `workflows/`: GitHub Actions 워크플로우 정의 파일들이 포함됩니다.
+    -   `lint.yml`: 코드 린팅을 위한 CI/CD 워크플로우.
+    -   `playwright.yml`: Playwright 테스트 실행을 위한 CI/CD 워크플로우.
+
+### 6.3. `app/` (Next.js App Router)
+
+-   `favicon.ico`: 웹사이트 파비콘.
+-   `globals.css`: 전역 CSS 스타일.
+-   `layout.tsx`: 전역 레이아웃 컴포넌트. 모든 페이지에 적용되는 UI를 정의합니다.
+-   `(auth)/`: 인증 관련 라우트 그룹.
+    -   `actions.ts`: 인증 관련 Server Actions. (예: 로그인, 회원가입 처리)
+    -   `auth.config.ts`: NextAuth.js 인증 설정.
+    -   `auth.ts`: NextAuth.js 인증 로직.
+    -   `api/auth/`: 인증 관련 API 라우트.
+        -   `guest/route.ts`: 게스트 사용자 인증 API.
+        -   `[...nextauth]/route.ts`: NextAuth.js 콜백 라우트.
+    -   `login/page.tsx`: 로그인 페이지 UI.
+    -   `register/page.tsx`: 회원가입 페이지 UI.
+-   `(chat)/`: 메인 채팅 기능 관련 라우트 그룹.
+    -   `actions.ts`: 채팅 관련 Server Actions.
+    -   `layout.tsx`: 채팅 페이지 레이아웃.
+    -   `opengraph-image.png`: Open Graph 이미지.
+    -   `page.tsx`: 메인 채팅 페이지 UI.
+    -   `twitter-image.png`: Twitter 카드 이미지.
+    -   `api/`: 채팅 관련 API 라우트.
+        -   `chat/`: 채팅 메시지 관련 API.
+            -   `schema.ts`: 채팅 메시지 스키마 정의.
+            -   `route.ts`: 채팅 메시지 처리 API.
+            -   `[id]/stream/route.ts`: 채팅 스트림 API.
+        -   `document/route.ts`: 문서 관련 API.
+        -   `files/upload/route.ts`: 파일 업로드 API.
+        -   `history/route.ts`: 채팅 기록 관련 API.
+        -   `suggestions/route.ts`: 제안 관련 API.
+        -   `vote/route.ts`: 메시지 투표 관련 API.
+    -   `chat/[id]/page.tsx`: 특정 채팅방 페이지.
+-   `projects/`: 프로젝트 관리 관련 라우트 그룹.
+    -   `actions.ts`: 프로젝트 생성, 조회 등 프로젝트 관련 Server Actions.
+    -   `page.tsx`: 프로젝트 목록 및 생성 UI.
+    -   `[id]/`: 특정 프로젝트 관련 라우트 그룹.
+        -   `page.tsx`: 개별 프로젝트 상세 페이지.
+        -   `chat-room/page.tsx`: 팀 채팅방 페이지 (플레이스홀더).
+        -   `dashboard/page.tsx`: AI 역할 추천 대시보드 페이지.
+        -   `invite/page.tsx`: 팀원 초대 UI (미구현).
+        -   `survey/`: 팀원 설문 관련 라우트 그룹.
+            -   `actions.ts`: 설문 응답 저장 Server Action.
+            -   `page.tsx`: 팀원 설문 UI.
+
+### 6.4. `artifacts/` (아티팩트 관련)
+
+-   `actions.ts`: 아티팩트 관련 Server Actions.
+-   `code/`: 코드 아티팩트.
+    -   `client.tsx`: 클라이언트 측 코드 아티팩트 컴포넌트.
+    -   `server.ts`: 서버 측 코드 아티팩트 로직.
+-   `image/`: 이미지 아티팩트.
+    -   `client.tsx`: 클라이언트 측 이미지 아티팩트 컴포넌트.
+    -   `server.ts`: 서버 측 이미지 아티팩트 로직.
+-   `sheet/`: 스프레드시트 아티팩트.
+    -   `client.tsx`: 클라이언트 측 스프레드시트 아티팩트 컴포넌트.
+    -   `server.ts`: 서버 측 스프레드시트 아티팩트 로직.
+-   `text/`: 텍스트 아티팩트.
+    -   `client.tsx`: 클라이언트 측 텍스트 아티팩트 컴포넌트.
+    -   `server.ts`: 서버 측 텍스트 아티팩트 로직.
+
+### 6.5. `components/` (재사용 가능한 UI 컴포넌트)
+
+-   `app-sidebar.tsx`: 애플리케이션 사이드바.
+-   `artifact-actions.tsx`: 아티팩트 액션 버튼.
+-   `artifact-close-button.tsx`: 아티팩트 닫기 버튼.
+-   `artifact-messages.tsx`: 아티팩트 메시지 표시.
+-   `artifact.tsx`: 아티팩트 컨테이너.
+-   `auth-form.tsx`: 인증 폼.
+-   `chat-header.tsx`: 채팅 헤더.
+-   `chat.tsx`: 채팅 UI의 메인 컴포넌트.
+-   `code-block.tsx`: 코드 블록 표시.
+-   `code-editor.tsx`: 코드 에디터.
+-   `console.tsx`: 콘솔 출력.
+-   `create-artifact.tsx`: 아티팩트 생성 버튼.
+-   `data-stream-handler.tsx`: 데이터 스트림 핸들러.
+-   `data-stream-provider.tsx`: 데이터 스트림 프로바이더.
+-   `diffview.tsx`: 코드/텍스트 차이점 뷰어.
+-   `document-preview.tsx`: 문서 미리보기.
+-   `document-skeleton.tsx`: 문서 로딩 스켈레톤.
+-   `document.tsx`: 문서 컨테이너.
+-   `greeting.tsx`: 초기 인사말 및 프로젝트 생성 버튼.
+-   `icons.tsx`: 사용자 정의 아이콘.
+-   `image-editor.tsx`: 이미지 에디터.
+-   `markdown.tsx`: 마크다운 렌더러.
+-   `message-actions.tsx`: 메시지 액션 버튼.
+-   `message-editor.tsx`: 메시지 에디터.
+-   `message-reasoning.tsx`: 메시지 추론 표시.
+-   `message.tsx`: 단일 메시지 컴포넌트.
+-   `messages.tsx`: 메시지 목록 컴포넌트.
+-   `model-selector.tsx`: AI 모델 선택기.
+-   `multimodal-input.tsx`: 멀티모달 입력 필드.
+-   `preview-attachment.tsx`: 첨부 파일 미리보기.
+-   `sheet-editor.tsx`: 스프레드시트 에디터.
+-   `sidebar-history-item.tsx`: 사이드바 채팅 기록 항목.
+-   `sidebar-history.tsx`: 사이드바 채팅 기록 목록.
+-   `sidebar-toggle.tsx`: 사이드바 토글 버튼.
+-   `sidebar-user-nav.tsx`: 사이드바 사용자 네비게이션.
+-   `sign-out-form.tsx`: 로그아웃 폼.
+-   `submit-button.tsx`: 제출 버튼.
+-   `suggested-actions.tsx`: 제안된 액션 버튼.
+-   `suggestion.tsx`: 제안 표시.
+-   `text-editor.tsx`: 텍스트 에디터.
+-   `theme-provider.tsx`: 테마 프로바이더.
+-   `toast.tsx`: 토스트 알림.
+-   `toolbar.tsx`: 툴바.
+-   `version-footer.tsx`: 버전 푸터.
+-   `visibility-selector.tsx`: 가시성 선택기.
+-   `weather.tsx`: 날씨 정보 표시 (예시).
+-   `ui/`: `shadcn/ui` 컴포넌트들.
+    -   `alert-dialog.tsx`: 경고 대화 상자.
+    -   `button.tsx`: 버튼.
+    -   `card.tsx`: 카드.
+    -   `dropdown-menu.tsx`: 드롭다운 메뉴.
+    -   `input.tsx`: 입력 필드.
+    -   `label.tsx`: 라벨.
+    -   `select.tsx`: 선택 필드.
+    -   `separator.tsx`: 구분선.
+    -   `sheet.tsx`: 시트 (사이드 패널).
+    -   `skeleton.tsx`: 로딩 스켈레톤.
+    -   `textarea.tsx`: 텍스트 영역.
+    -   `tooltip.tsx`: 툴팁.
+
+### 6.6. `hooks/` (커스텀 React Hooks)
+
+-   `use-artifact.ts`: 아티팩트 관련 커스텀 훅.
+-   `use-auto-resume.ts`: 자동 재개 관련 커스텀 훅.
+-   `use-chat-visibility.ts`: 채팅 가시성 관련 커스텀 훅.
+-   `use-messages.tsx`: 메시지 관련 커스텀 훅.
+-   `use-mobile.tsx`: 모바일 상태 감지 커스텀 훅.
+-   `use-scroll-to-bottom.tsx`: 스크롤을 하단으로 이동시키는 커스텀 훅.
+
+### 6.7. `lib/` (라이브러리 및 유틸리티)
+
+-   `constants.ts`: 전역 상수 정의.
+-   `errors.ts`: 사용자 정의 오류 클래스.
+-   `types.ts`: 전역 타입 정의.
+-   `utils.ts`: 일반 유틸리티 함수.
+-   `ai/`: AI 관련 로직.
+    -   `entitlements.ts`: AI 기능 권한 관리.
+    -   `models.test.ts`: AI 모델 테스트.
+    -   `models.ts`: AI 모델 정의.
+    -   `prompts.ts`: AI 프롬프트 정의.
+    -   `providers.ts`: AI 제공자 (Gemini 등) 연동.
+    -   `tools/`: AI 도구 정의.
+        -   `create-document.ts`: 문서 생성 AI 도구.
+        -   `get-weather.ts`: 날씨 정보 가져오기 AI 도구.
+        -   `request-suggestions.ts`: 제안 요청 AI 도구.
+        -   `update-document.ts`: 문서 업데이트 AI 도구.
+-   `artifacts/server.ts`: 서버 측 아티팩트 로직.
+-   `db/`: 데이터베이스 관련 로직.
+    -   `migrate.ts`: Drizzle ORM 마이그레이션 스크립트.
+    -   `queries.ts`: 데이터베이스 쿼리 함수.
+    -   `schema.ts`: Drizzle ORM 스키마 정의.
+    -   `utils.ts`: 데이터베이스 유틸리티 함수.
+    -   `helpers/01-core-to-parts.ts`: 데이터베이스 마이그레이션 헬퍼.
+    -   `migrations/`: Drizzle ORM 마이그레이션 파일.
+        -   `0000_left_magneto.sql`: 초기 마이그레이션 SQL.
+        -   `0001_clear_eternals.sql`: 두 번째 마이그레이션 SQL.
+        -   `meta/_journal.json`: 마이그레이션 저널.
+        -   `meta/0000_snapshot.json`: 초기 스냅샷.
+        -   `meta/0001_snapshot.json`: 두 번째 스냅샷.
+-   `editor/`: 에디터 관련 로직.
+    -   `config.ts`: 에디터 설정.
+    -   `diff.js`: 차이점 계산 로직.
+    -   `functions.tsx`: 에디터 함수.
+    -   `react-renderer.tsx`: React 렌더러.
+    -   `suggestions.tsx`: 제안 관련 로직.
+
+### 6.8. `public/` (정적 자산)
+
+-   `images/`: 이미지 파일.
+    -   `demo-thumbnail.png`: 데모 썸네일 이미지.
+    -   `mouth of the seine, monet.jpg`: 예시 이미지.
+
+### 6.9. `tests/` (테스트 파일)
+
+-   `e2e/`: End-to-End 테스트.
+    -   `artifacts.test.ts`: 아티팩트 E2E 테스트.
+    -   `chat.test.ts`: 채팅 E2E 테스트.
+    -   `reasoning.test.ts`: 추론 E2E 테스트.
+    -   `session.test.ts`: 세션 E2E 테스트.
+-   `fixtures.ts`: 테스트 픽스처.
+-   `helpers.ts`: 테스트 헬퍼 함수.
+-   `pages/`: 페이지별 테스트.
+    -   `artifact.ts`: 아티팩트 페이지 테스트.
+    -   `auth.ts`: 인증 페이지 테스트.
+    -   `chat.ts`: 채팅 페이지 테스트.
+-   `prompts/`: 프롬프트 테스트.
+    -   `basic.ts`: 기본 프롬프트 테스트.
+    -   `routes.ts`: 라우트 프롬프트 테스트.
+    -   `utils.ts`: 유틸리티 프롬프트 테스트.
+-   `routes/`: 라우트 테스트.
+    -   `chat.test.ts`: 채팅 라우트 테스트.
+    -   `document.test.ts`: 문서 라우트 테스트.

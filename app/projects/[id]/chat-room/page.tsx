@@ -9,8 +9,7 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-export default async function ChatRoomPage(props: Props) {
-  const params = await React.use(props.params);
+export default async function ChatRoomPage({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-background px-4 py-12">
       <div className="w-full max-w-xl">

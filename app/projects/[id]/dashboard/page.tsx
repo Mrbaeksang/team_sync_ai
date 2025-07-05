@@ -22,8 +22,7 @@ async function getSurveyResponses(projectId: string) {
 }
 
 // 대시보드 페이지
-export default async function DashboardPage(props: { params: Promise<{ id: string }> }) {
-  const params = await React.use(props.params);
+export default async function DashboardPage({ params }: { params: { id: string } }) {
   const project = await getProject(params.id);
   const responses = await getSurveyResponses(params.id);
 

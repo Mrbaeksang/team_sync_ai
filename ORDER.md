@@ -1,4 +1,4 @@
-git add . && git commit -m "Fix: 설문 페이지에 saveSurveyResponse Server Action 임포트 추가"
+git add . && git commit -m "Fix: 설문 페이지 toast 임포트 및 사용 방식 수정 (sonner 활용)"
 
 ## 코드 생성 컨텍스트 및 디자인 지침
 
@@ -12,28 +12,32 @@ git add . && git commit -m "Fix: 설문 페이지에 saveSurveyResponse Server A
 
 ## 외부 AI를 위한 구체적인 프롬프트
 
-`app/projects/[id]/survey/page.tsx` 파일에 `saveSurveyResponse` Server Action을 임포트하는 구문을 추가해주세요.
+`app/projects/[id]/survey/page.tsx` 파일에서 `toast` 임포트 구문을 `sonner` 라이브러리에서 임포트하도록 변경하고, `toast` 함수 호출 방식도 `sonner`의 `toast` 함수에 맞게 수정해주세요.
 
 **수정 전 코드:**
 
 ```typescript
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/toast';
+
+// ...
+
+toast({ title: '설문 응답이 성공적으로 저장되었습니다.' });
+// ...
+toast({ title: '설문 응답 저장에 실패했습니다.', description: result.error, variant: 'destructive' });
 ```
 
 **수정 후 코드:**
 
 ```typescript
 // --- 플레이스홀더 시작 ---
-// 여기에 수정된 코드를 삽입하세요.
+import { toast } from "sonner";
+
+// ...
+
+toast("설문 응답이 성공적으로 저장되었습니다.");
+// ...
+toast.error(`설문 응답 저장에 실패했습니다. ${result.error}`);
 // --- 플레이스홀더 끝 ---
-```
 
 ## 코드 삽입을 위한 플레이스홀더
 

@@ -7,8 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/toast';
-import { saveSurveyResponse } from './actions';
+import { toast } from "sonner";
 import { saveSurveyResponse } from './actions';
 
 interface SurveyPageProps {
@@ -28,10 +27,10 @@ export default function SurveyPage({ params }: SurveyPageProps) {
 
     const result = await saveSurveyResponse({ projectId, teamMemberName, responseContent });
     if (result.success) {
-      toast({ title: '설문 응답이 성공적으로 저장되었습니다.' });
+      toast("설문 응답이 성공적으로 저장되었습니다.");
       router.push(`/projects/${projectId}`);
     } else {
-      toast({ title: '설문 응답 저장에 실패했습니다.', description: result.error, variant: 'destructive' });
+      toast.error(`설문 응답 저장에 실패했습니다. ${result.error}`);
     }
 
     setIsSubmitting(false);
