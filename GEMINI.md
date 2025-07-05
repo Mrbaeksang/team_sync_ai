@@ -61,7 +61,7 @@
     -   **스타일링**: Tailwind CSS를 사용하며, 기존 `ai-chatbot` 템플릿에서 사용되는 Tailwind CSS 클래스 컨벤션(예: `bg-background`, `text-foreground`, `border`, `shadow-sm`, `rounded-md`, `px-4`, `py-2` 등)을 최대한 따릅니다.
 -   **데이터 처리**:
     -   **백엔드 로직**: Next.js Server Actions를 활용하여 데이터 처리 로직을 구현합니다.
-    -   **데이터베이스**: Neon (PostgreSQL)을 사용하며, `DATABASE_URL` 환경 변수를 통해 연결됩니다. **Drizzle ORM**을 사용하여 `lib/db/schema.ts`에 스키마를 정의하고 `lib/db/queries.ts`를 통해 데이터베이스 작업을 수행합니다. 데이터베이스 연결 환경 변수를 `DATABASE_URL`로 통일하고, `.env.local` 대신 `.env` 파일을 로드하도록 `lib/db/queries.ts`, `lib/db/migrate.ts`, `drizzle.config.ts`를 수정했습니다.
+    -   **데이터베이스**: Neon (PostgreSQL)을 사용하며, `POSTGRES_URL` 환경 변수를 통해 연결됩니다. **Drizzle ORM**을 사용하여 `lib/db/schema.ts`에 스키마를 정의하고 `lib/db/queries.ts`를 통해 데이터베이스 작업을 수행합니다. `.env.local` 대신 `.env` 파일을 로드하도록 `lib/db/queries.ts`, `lib/db/migrate.ts`, `drizzle.config.ts`를 수정했습니다.**
 -   **캐싱/실시간 데이터**: Upstash (Redis/Kafka)를 활용할 수 있습니다. (`KV_REST_API_*`, `KV_URL`, `REDIS_URL` 환경 변수 사용)
 -   **인증**: **NextAuth.js**를 사용하여 인증을 처리하며, **Google 및 Kakao OAuth**를 주요 인증 제공자로 사용합니다. `AUTH_SECRET` 환경 변수가 사용됩니다.
 -   **AI**: **Google Gemini API**를 활용하며, `GEMINI_API_KEY` 환경 변수를 통해 연동됩니다. AI는 팀원 설문 분석 및 역할 추천에 사용됩니다.
@@ -71,6 +71,7 @@
     -   `NEXT_PUBLIC_STACK_*`, `STACK_SECRET_SERVER_KEY`, `VERCEL_OIDC_TOKEN`: Vercel AI Chatbot 템플릿의 특정 기능 또는 Vercel 플랫폼 연동에 사용될 수 있습니다. 프로젝트 진행에 따라 필요 여부를 판단합니다.
 -   **파일 구조**: `app` 라우터 기반의 Next.js 프로젝트이며, `components`, `lib` 등의 기존 폴더 구조를 따릅니다. `use client` 지시어는 클라이언트 측 상호작용이 필요한 컴포넌트에만 사용합니다.
 -   **참고**: 본 프로젝트는 `vercel/ai-chatbot` 템플릿을 커스터마이징하므로, 현재 프로젝트 목표와 관련 없는 파일들이 포함되어 있을 수 있습니다.
+-   **환경 변수 설정**: 성공적인 빌드 및 배포를 위해 `DATABASE_URL`, `AUTH_SECRET`, `GEMINI_API_KEY` 등 필요한 환경 변수들이 Vercel 프로젝트 설정에 올바르게 설정되어 있어야 합니다. `.env.example` 파일을 참조하여 필요한 환경 변수를 확인하고 설정해주세요.
 
 ---
 
@@ -145,7 +146,7 @@
 
 ### 3.6. 팀 채팅방 자동 생성/실시간 소통
 
--   **진행 상황**: 완료 [x] (채팅방 페이지 플레이스홀더 구현 완료)
+-   **진행 상황**: 완료 [x] (채팅방 페이지 플레이스홀더 구현 완료, `params` 타입 오류 수정)
 -   **역할 및 연결 지점**:
     -   `app/projects/[id]/chat-room/page.tsx`에 팀 채팅방 UI의 플레이스홀더가 구현되었습니다.
     -   실시간 채팅 기능 및 메시지 저장 기능은 아직 미구현입니다.
@@ -194,7 +195,7 @@
     -   **오류 보고**: 오류가 발생할 경우 사용자에게 즉시 보고하고, 가능한 해결 방안을 제시합니다.
 -   **제한 사항**:
     -   사용자님의 명시적인 지시 없이는 임의로 코드 수정/생성/삭제를 하지 않습니다.
-    -   **프로젝트의 상태를 변경할 수 있는 어떠한 명령(빌드, 설치, 마이그레이션, 푸시, 삭제 등)도 사용자님의 명시적인 확인과 승인 없이는 절대 실행하지 않습니다.** 명령의 목적과 잠재적 영향을 항상 먼저 설명하고, 사용자님의 승인을 요청할 것입니다.
+    -   **프로젝트의 상태를 변경할 수 있는 어떠한 명령(예: `run_shell_command`를 통한 빌드, 설치, 마이그레이션, 푸시, 삭제 등)도 사용자님의 명시적인 확인과 승인 없이는 절대 실행하지 않습니다.** 명령의 목적과 잠재적 영향을 항상 먼저 설명하고, 사용자님의 **명확한 승인**을 요청할 것입니다.
     -   보안 및 안전 규칙을 최우선으로 준수하며, 민감한 정보(API 키, 비밀 등)를 코드에 노출하지 않습니다.
     -   대화형 셸 명령(예: `npm init`과 같이 사용자 입력을 요구하는 명령)은 지원하지 않으며, 비대화형 옵션(`npm init -y`)을 선호합니다.
 -   **사용자님과의 약속**:
