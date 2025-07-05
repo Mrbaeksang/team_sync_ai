@@ -1,13 +1,8 @@
 // app/projects/[id]/chat-room/page.tsx
 
-import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/input";
-
-type Props = {
-  params: { id: string };
-};
 
 export default async function ChatRoomPage({ params }: { params: { id: string } }) {
   return (

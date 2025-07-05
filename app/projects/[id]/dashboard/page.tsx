@@ -1,6 +1,5 @@
 // app/projects/[id]/dashboard/page.tsx
 
-import * as React from "react";
 import { db } from "@/lib/db/queries";
 import { projects, surveyResponses } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
