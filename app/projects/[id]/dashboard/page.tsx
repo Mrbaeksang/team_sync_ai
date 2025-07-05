@@ -5,7 +5,6 @@ import { projects, surveyResponses, SurveyResponse } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import * as React from "react";
 
 // 프로젝트 정보 조회
 async function getProject(projectId: string) {
@@ -23,7 +22,7 @@ async function getSurveyResponses(projectId: string) {
 
 // 대시보드 페이지
 export default async function DashboardPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = React.use(params);
+  const { id } = await params;
   const project = await getProject(id);
   const responses = await getSurveyResponses(id);
 
