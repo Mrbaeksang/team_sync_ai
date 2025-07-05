@@ -1,17 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, } from "react";
 import { useSession } from "next-auth/react";
 import { Chat } from "@/components/chat";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DataStreamProvider } from "@/components/data-stream-provider";
 import { getProjectCreationPrompt } from "@/lib/ai/prompts";
+import { DEFAULT_CHAT_MODEL } from "@/lib/ai/models";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createProjectServerAction } from "./actions";
-import { Project } from "@/lib/db/schema"; // Project 타입 import
+import type { Project } from "@/lib/db/schema"; // Project 타입 import
 
 export function ProjectClient({ initialProjects }: { initialProjects: Project[] }) {
   const { data: session, status } = useSession();
@@ -43,12 +44,20 @@ export function ProjectClient({ initialProjects }: { initialProjects: Project[] 
               AI 챗봇으로 프로젝트 생성
             </h2>
             <DataStreamProvider>
-              <Chat
-                chatId={chatId}
-                initialMessages={getProjectCreationPrompt()}
-                onChatCreated={setChatId}
-                session={session}
-              />
+              {chatId && (
+                <Chat
+                  id={chatId}
+                  initialMessages={getProjectCreationPrompt()}
+                  session={session}
+                  initialChatModel={DEFAULT_CHAT_MODEL}
+                  initialVisibilityType={'private'}
+                  isReadonly={false}
+                  autoResume={true}
+                />
+              )}
+              {!chatId && (
+                <p className="text-muted-foreground">프로젝트 챗봇을 로딩 중입니다...</p>
+              )}
             </DataStreamProvider>
           </CardContent>
         </Card>

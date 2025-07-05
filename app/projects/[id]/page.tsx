@@ -1,8 +1,15 @@
 import { getProjectByIdServerAction } from "@/app/projects/actions";
 import { ProjectDetailsClient } from "./project-details-client";
 
-export default async function ProjectPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function ProjectPage({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const { id } = resolvedParams;
   const project = await getProjectByIdServerAction(id);
 
   if (!project) {

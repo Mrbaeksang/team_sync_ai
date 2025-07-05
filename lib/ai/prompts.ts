@@ -123,7 +123,7 @@ ${currentContent}
 export const getProjectCreationPrompt = () => [
   {
     id: '1',
-    content: '안녕하세요! 팀 빌딩 AI 어시스턴트입니다. 새로운 프로젝트를 시작해볼까요? 프로젝트의 이름과 목표에 대해 알려주세요.',
-    role: 'assistant',
+    role: 'assistant' as const,
+    parts: [{ type: 'text' as const, text: '안녕하세요! 팀 빌딩 AI 어시스턴트입니다. 새로운 프로젝트를 시작해볼까요? 프로젝트의 이름과 목표에 대해 알려주세요.' }],
   },
 ];

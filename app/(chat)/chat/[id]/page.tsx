@@ -8,8 +8,15 @@ import { DataStreamHandler } from '@/components/data-stream-handler';
 import { DEFAULT_CHAT_MODEL } from '@/lib/ai/models';
 import { convertToUIMessages } from '@/lib/utils';
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function Page({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const { id } = resolvedParams;
   const chat = await getChatById({ id });
 
   if (!chat) {

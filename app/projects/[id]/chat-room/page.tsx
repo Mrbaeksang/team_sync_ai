@@ -4,8 +4,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function ChatRoomPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function ChatRoomPage({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : undefined;
+  const { id } = resolvedParams;
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-background px-4 py-12">
       <div className="w-full max-w-xl">
