@@ -1,16 +1,128 @@
-## 로그인 후 첫 페이지 변경 계획 (인사말 및 새 프로젝트 생성)
-
-**목표**: 로그인 후 사용자가 처음 접속했을 때, 기존 채팅 기록 유무와 관계없이 (단, 기존 채팅 기록이 없는 경우에만 해당 화면을 보여주는 것으로 가정) `Greeting` 컴포넌트가 애니메이션과 함께 나타나고, "새 프로젝트 생성" 버튼을 통해 `app/projects` 페이지로 이동할 수 있도록 합니다.
-
-**세부 계획:**
-
-1.  **`app/(chat)/page.tsx` 수정 계획**:
-    *   `app/(chat)/page.tsx`는 현재 로그인 후 렌더링되는 메인 페이지입니다. 이 페이지에서 `Greeting` 컴포넌트를 조건부로 렌더링하도록 수정합니다.
-    *   **수정 내용**:
-        *   `app/(chat)/page.tsx`에서 `Greeting` 컴포넌트를 렌더링하도록 변경합니다. (기존 `Chat` 컴포넌트 렌더링 로직을 조건부로 변경하거나, 초기 상태에서 `Greeting`을 먼저 보여주도록 조정)
-        *   `Greeting` 컴포넌트의 `onStartProject` prop에 `useRouter` 훅을 사용하여 `app/projects` 페이지로 이동하는 내비게이션 로직을 연결합니다.
-        *   **참고**: 현재 단계에서는 채팅 기록 유무에 따른 조건부 렌더링 로직(예: `hasEmptyChatHistory` 확인)은 제외하고, 단순히 첫 로그인 시 `Greeting` 컴포넌트가 보이도록 하는 데 집중합니다. 채팅 기록이 있는 경우의 처리는 추후 논의합니다.
-
-2.  **`components/greeting.tsx` 애니메이션 추가 계획**:
-    *   `Greeting` 컴포넌트에 `framer-motion` 라이브러리를 활용하여 등장 애니메이션을 추가합니다.
-    *   **예상 애니메이션 효과**: 페이드 인(fade-in), 슬라이드 업(slide-up) 또는 스케일 업(scale-up) 등의 효과를 조합하여 부드럽고 멋진 등장을 연출합니다.
+projects:1 
+            
+            
+           GET http://localhost:3000/projects 500 (Internal Server Error)
+stitched-error.ts:23 Uncaught PostgresError: relation "projects" does not exist
+    at resolveErrorDev (react-server-dom-turbopack-client.browser.development.js:1888:46)
+    at processFullStringRow (react-server-dom-turbopack-client.browser.development.js:2456:17)
+    at processFullBinaryRow (react-server-dom-turbopack-client.browser.development.js:2444:7)
+    at progress (react-server-dom-turbopack-client.browser.development.js:2691:17)
+    at InnerLayoutRouter (layout-router.tsx:415:5)
+    at OuterLayoutRouter (layout-router.tsx:615:19)
+getReactStitchedError @ stitched-error.ts:23
+onUncaughtError @ error-boundary-callbacks.ts:93
+onCaughtError @ error-boundary-callbacks.ts:41
+logCaughtError @ react-dom-client.development.js:8962
+runWithFiberInDEV @ react-dom-client.development.js:1491
+inst.componentDidCatch.update.callback @ react-dom-client.development.js:9009
+callCallback @ react-dom-client.development.js:6809
+commitCallbacks @ react-dom-client.development.js:6829
+runWithFiberInDEV @ react-dom-client.development.js:1491
+commitClassCallbacks @ react-dom-client.development.js:12718
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13980
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13903
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13903
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13903
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13908
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13903
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13903
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13903
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13903
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:14088
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13908
+recursivelyTraverseLayoutEffects @ react-dom-client.development.js:15022
+commitLayoutEffectOnFiber @ react-dom-client.development.js:13985
+flushLayoutEffects @ react-dom-client.development.js:18210
+commitRoot @ react-dom-client.development.js:18039
+commitRootWhenReady @ react-dom-client.development.js:17101
+performWorkOnRoot @ react-dom-client.development.js:17000
+performWorkOnRootViaSchedulerTask @ react-dom-client.development.js:19195
+performWorkUntilDeadline @ scheduler.development.js:36
+<LayoutRouterContext.Provider>
+exports.jsx @ react-jsx-runtime.development.js:342
+InnerLayoutRouter @ layout-router.tsx:415
+react-stack-bottom-frame @ react-dom-client.development.js:26600
+renderWithHooksAgain @ react-dom-client.development.js:7217
+renderWithHooks @ react-dom-client.development.js:7129
+updateFunctionComponent @ react-dom-client.development.js:9517
+beginWork @ react-dom-client.development.js:11169
+runWithFiberInDEV @ react-dom-client.development.js:1491
+performUnitOfWork @ react-dom-client.development.js:17709
+workLoopConcurrentByScheduler @ react-dom-client.development.js:17703
+renderRootConcurrent @ react-dom-client.development.js:17685
+performWorkOnRoot @ react-dom-client.development.js:16816
+performWorkOnRootViaSchedulerTask @ react-dom-client.development.js:19195
+performWorkUntilDeadline @ scheduler.development.js:36
+<InnerLayoutRouter>
+exports.jsx @ react-jsx-runtime.development.js:342
+OuterLayoutRouter @ layout-router.tsx:615
+react-stack-bottom-frame @ react-dom-client.development.js:26600
+renderWithHooksAgain @ react-dom-client.development.js:7217
+renderWithHooks @ react-dom-client.development.js:7129
+updateFunctionComponent @ react-dom-client.development.js:9517
+beginWork @ react-dom-client.development.js:11118
+runWithFiberInDEV @ react-dom-client.development.js:1491
+performUnitOfWork @ react-dom-client.development.js:17709
+workLoopConcurrentByScheduler @ react-dom-client.development.js:17703
+renderRootConcurrent @ react-dom-client.development.js:17685
+performWorkOnRoot @ react-dom-client.development.js:16816
+performWorkOnRootViaSchedulerTask @ react-dom-client.development.js:19195
+performWorkUntilDeadline @ scheduler.development.js:36
+"use client"
+(익명) @ react-server-dom-turbopack-client.browser.development.js:2571
+initializeModelChunk @ react-server-dom-turbopack-client.browser.development.js:1057
+resolveModelChunk @ react-server-dom-turbopack-client.browser.development.js:1032
+resolveModel @ react-server-dom-turbopack-client.browser.development.js:1622
+processFullStringRow @ react-server-dom-turbopack-client.browser.development.js:2505
+processFullBinaryRow @ react-server-dom-turbopack-client.browser.development.js:2444
+progress @ react-server-dom-turbopack-client.browser.development.js:2691
+"use server"
+ResponseInstance @ react-server-dom-turbopack-client.browser.development.js:1610
+createResponseFromOptions @ react-server-dom-turbopack-client.browser.development.js:2608
+exports.createFromReadableStream @ react-server-dom-turbopack-client.browser.development.js:2951
+[project]/node_modules/.pnpm/next@15.3.0-canary.31_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_react-dom@19.0.0-rc-45_mlqzopqn56t6gad76627omqvii/node_modules/next/dist/client/app-index.js [app-client] (ecmascript) @ app-index.tsx:157
+(익명) @ dev-base.ts:205
+runModuleExecutionHooks @ dev-base.ts:265
+instantiateModule @ dev-base.ts:203
+getOrInstantiateModuleFromParent @ dev-base.ts:132
+commonJsRequire @ runtime-utils.ts:241
+(익명) @ app-next-turbopack.ts:10
+(익명) @ app-bootstrap.ts:78
+loadScriptsInSequence @ app-bootstrap.ts:20
+appBootstrap @ app-bootstrap.ts:60
+[project]/node_modules/.pnpm/next@15.3.0-canary.31_@opentelemetry+api@1.9.0_@playwright+test@1.51.0_react-dom@19.0.0-rc-45_mlqzopqn56t6gad76627omqvii/node_modules/next/dist/client/app-next-turbopack.js [app-client] (ecmascript) @ app-next-turbopack.ts:9
+(익명) @ dev-base.ts:205
+runModuleExecutionHooks @ dev-base.ts:265
+instantiateModule @ dev-base.ts:203
+getOrInstantiateRuntimeModule @ dev-base.ts:101
+registerChunk @ runtime-backend-dom.ts:85
+await in registerChunk
+registerChunk @ runtime-base.ts:328
+(익명) @ dev-backend-dom.ts:127
+(익명) @ dev-backend-dom.ts:127
