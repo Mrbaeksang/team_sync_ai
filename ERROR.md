@@ -1,78 +1,16 @@
-"use client";
+## 로그인 후 첫 페이지 변경 계획 (인사말 및 새 프로젝트 생성)
 
-import * as React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+**목표**: 로그인 후 사용자가 처음 접속했을 때, 기존 채팅 기록 유무와 관계없이 (단, 기존 채팅 기록이 없는 경우에만 해당 화면을 보여주는 것으로 가정) `Greeting` 컴포넌트가 애니메이션과 함께 나타나고, "새 프로젝트 생성" 버튼을 통해 `app/projects` 페이지로 이동할 수 있도록 합니다.
 
-export default function ProjectsPage() {
-  const [showForm, setShowForm] = React.useState(false);
-  const [projectName, setProjectName] = React.useState("");
-  // 실제 프로젝트 목록은 추후 server action에서 관리 예정
-  const [projects] = React.useState<string[]>([]);
+**세부 계획:**
 
-  const handleCreateProject = (e: React.FormEvent) => {
-    e.preventDefault();
-    // 추후 server action으로 대체
-    console.log("프로젝트 생성:", projectName);
-    setProjectName("");
-    setShowForm(false);
-  };
+1.  **`app/(chat)/page.tsx` 수정 계획**:
+    *   `app/(chat)/page.tsx`는 현재 로그인 후 렌더링되는 메인 페이지입니다. 이 페이지에서 `Greeting` 컴포넌트를 조건부로 렌더링하도록 수정합니다.
+    *   **수정 내용**:
+        *   `app/(chat)/page.tsx`에서 `Greeting` 컴포넌트를 렌더링하도록 변경합니다. (기존 `Chat` 컴포넌트 렌더링 로직을 조건부로 변경하거나, 초기 상태에서 `Greeting`을 먼저 보여주도록 조정)
+        *   `Greeting` 컴포넌트의 `onStartProject` prop에 `useRouter` 훅을 사용하여 `app/projects` 페이지로 이동하는 내비게이션 로직을 연결합니다.
+        *   **참고**: 현재 단계에서는 채팅 기록 유무에 따른 조건부 렌더링 로직(예: `hasEmptyChatHistory` 확인)은 제외하고, 단순히 첫 로그인 시 `Greeting` 컴포넌트가 보이도록 하는 데 집중합니다. 채팅 기록이 있는 경우의 처리는 추후 논의합니다.
 
-  return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-background px-4 py-12">
-      <div className="w-full max-w-2xl">
-        <h1 className="text-3xl font-bold mb-8 text-foreground">내 프로젝트</h1>
-        <Card className="w-full border shadow-sm mb-8">
-          <CardContent className="py-8 px-6 flex flex-col items-center">
-            {projects.length === 0 ? (
-              <p className="text-muted-foreground text-center mb-4">
-                아직 생성된 프로젝트가 없습니다.
-              </p>
-            ) : (
-              <ul className="w-full mb-4">
-                {projects.map((proj) => (
-                  <li key={proj} className="border-b last:border-b-0 py-2 px-1 text-foreground">
-                    {proj}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {showForm ? (
-              <form onSubmit={handleCreateProject} className="w-full flex gap-2 mt-4">
-                <Input
-                  placeholder="프로젝트 이름을 입력하세요"
-                  value={projectName}
-                  onChange={(e) => setProjectName(e.target.value)}
-                  autoFocus
-                  className="flex-1"
-                />
-                <Button type="submit" disabled={!projectName.trim()}>
-                  생성
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => {
-                    setShowForm(false);
-                    setProjectName("");
-                  }}
-                >
-                  취소
-                </Button>
-              </form>
-            ) : (
-              <Button
-                onClick={() => setShowForm(true)}
-                className="w-full mt-2"
-                size="lg"
-              >
-                새 프로젝트 생성
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-}
+2.  **`components/greeting.tsx` 애니메이션 추가 계획**:
+    *   `Greeting` 컴포넌트에 `framer-motion` 라이브러리를 활용하여 등장 애니메이션을 추가합니다.
+    *   **예상 애니메이션 효과**: 페이드 인(fade-in), 슬라이드 업(slide-up) 또는 스케일 업(scale-up) 등의 효과를 조합하여 부드럽고 멋진 등장을 연출합니다.
