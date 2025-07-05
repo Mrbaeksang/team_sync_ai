@@ -1,8 +1,8 @@
 import { getProjectByIdServerAction } from "@/app/projects/actions";
 import { ProjectDetailsClient } from "./project-details-client";
 
-export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function ProjectPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const project = await getProjectByIdServerAction(id);
 
   if (!project) {

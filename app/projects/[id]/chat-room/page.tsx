@@ -4,8 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default async function ChatRoomPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default function ChatRoomPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-background px-4 py-12">
       <div className="w-full max-w-xl">

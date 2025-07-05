@@ -21,8 +21,8 @@ async function getSurveyResponses(projectId: string) {
 }
 
 // 대시보드 페이지
-export default async function DashboardPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function DashboardPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const project = await getProject(id);
   const responses = await getSurveyResponses(id);
 
