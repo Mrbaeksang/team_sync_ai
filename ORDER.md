@@ -1,9 +1,9 @@
-git add . && git commit -m """feat: projects 테이블 스키마 정의
+git add . && git commit -m """feat: 개별 프로젝트 상세 페이지 생성
 
-- `drizzle-orm`을 사용하여 `projects` 테이블 스키마를 `lib/db/schema.ts`에 추가합니다.
-- 테이블에는 id, userId, name, description, createdAt 필드를 포함합니다.
-- `users` 테이블과의 관계를 설정합니다.
-"""
+- `app/projects/[id]/page.tsx` 파일을 생성하여 개별 프로젝트의 상세 정보를 표시합니다.
+- 데이터베이스에서 특정 ID의 프로젝트 정보를 조회하여 이름과 설명을 보여줍니다.
+- 동적 라우팅을 사용하여 각 프로젝트에 해당하는 페이지를 렌더링합니다.
+""" 
 
 ---
 ## 코드 생성 컨텍스트 및 디자인 지침 (Gemini CLI 에이전트가 ORDER.md에 포함할 내용)
@@ -21,34 +21,31 @@ git add . && git commit -m """feat: projects 테이블 스키마 정의
 ---
 ## 외부 AI를 위한 구체적인 프롬프트
 
-다음 요구사항에 따라 `lib/db/schema.ts` 파일에 `projects` 테이블 스키마를 추가하는 코드를 작성해주세요. 기존 코드는 유지하고 그 아래에 새로운 코드를 추가해야 합니다.
+다음 요구사항에 따라 `app/projects/[id]/page.tsx` 파일의 전체 코드를 생성해주세요.
 
-1.  **필요한 모듈 import**: `pg-core`에서 `text`, `timestamp`를 추가로 import 합니다.
-2.  **`projects` 테이블 정의**: `pgTable`을 사용하여 `projects`라는 이름의 새 테이블을 정의합니다.
-3.  **테이블 필드 정의**:
-    *   `id`: `text` 타입, `primaryKey()`
-    *   `userId`: `text` 타입, `notNull()`, `users` 테이블의 `id`를 참조하는 `references` 설정
-    *   `name`: `text` 타입, `notNull()`
-    *   `description`: `text` 타입
-    *   `createdAt`: `timestamp` 타입, `defaultNow()`, `notNull()`
-4.  **기존 코드 유지**: 파일에 이미 존재하는 `users`, `chats`, `messages` 테이블 및 관련 관계 설정(`relations`) 코드는 절대 수정하거나 삭제하지 마세요. 새로운 `projects` 테이블 정의 코드만 기존 코드의 마지막 부분에 추가해주세요.
+1.  **필요한 모듈 import**:
+    *   `@/lib/db`에서 `db` 객체를 import 합니다.
+    *   `@/lib/db/schema`에서 `projects` 테이블을 import 합니다.
+    *   `drizzle-orm`에서 `eq`를 import 합니다.
+    *   `@/components/ui/card` 등 필요한 UI 컴포넌트를 import 합니다.
+
+2.  **데이터 조회 함수 `getProject` 정의**:
+    *   `async function getProject(projectId: string)`를 정의합니다.
+    *   내부에서 `db.select().from(projects).where(eq(projects.id, projectId))`를 사용하여 특정 ID의 프로젝트 정보를 조회하고, 첫 번째 결과를 반환합니다.
+
+3.  **`ProjectPage` 컴포넌트 구현**:
+    *   `async` 함수로 정의하고, `params: { id: string }`를 props로 받습니다.
+    *   `await getProject(params.id)`를 호출하여 프로젝트 정보를 가져옵니다.
+    *   프로젝트 정보가 없을 경우, "프로젝트를 찾을 수 없습니다." 라는 메시지를 표시하고 `return` 합니다.
+    *   `Card` 컴포넌트를 사용하여 조회된 프로젝트의 `name`과 `description`을 화면에 표시합니다.
 
 ---
 ## 코드 삽입을 위한 플레이스홀더
 
-### ※ 중요: 아래 `[START OF CODE]`와 `[END OF CODE]` 사이에 **추가할 코드 부분만** 그대로 붙여넣어 주세요. (파일 전체 코드가 아님)
+### ※ 중요: 아래 `[START OF CODE]`와 `[END OF CODE]` 사이에 생성된 **`app/projects/[id]/page.tsx` 파일의 전체 코드**를 그대로 붙여넣어 주세요.
 
-```ts
+```tsx
 [START OF CODE]
-import { text, timestamp } from 'drizzle-orm/pg-core';
-
-export const projects = pgTable('projects', {
-  id: text('id').primaryKey(),
-  userId: text('user_id').notNull().references(() => users.id),
-  name: text('name').notNull(),
-  description: text('description'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-});
+// 여기에 코드 붙여넣기
 [END OF CODE]
-
 ```
