@@ -1,4 +1,4 @@
-import type { InferSelectModel } from 'drizzle-orm';
+import { InferSelectModel, relations } from 'drizzle-orm';
 import {
   pgTable,
   varchar,
@@ -176,3 +176,18 @@ export const projects = pgTable('projects', {
   description: text('description'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
+
+export const surveyResponses = pgTable("survey_responses", {
+  id: text("id").primaryKey(),
+  projectId: text("project_id").notNull().references(() => projects.id),
+  teamMemberName: text("team_member_name").notNull(),
+  responseContent: text("response_content"),
+  createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+});
+
+export const surveyResponsesRelations = relations(surveyResponses, ({ one }) => ({
+  project: one(projects, {
+    fields: [surveyResponses.projectId],
+    references: [projects.id],
+  }),
+}));
