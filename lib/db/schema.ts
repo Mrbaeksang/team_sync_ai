@@ -177,6 +177,8 @@ export const projects = pgTable('projects', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
+export type Project = InferSelectModel<typeof projects>;
+
 export const surveyResponses = pgTable("survey_responses", {
   id: text("id").primaryKey(),
   projectId: text("project_id").notNull().references(() => projects.id),
@@ -184,6 +186,8 @@ export const surveyResponses = pgTable("survey_responses", {
   responseContent: text("response_content"),
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
 });
+
+export type SurveyResponse = InferSelectModel<typeof surveyResponses>;
 
 export const surveyResponsesRelations = relations(surveyResponses, ({ one }) => ({
   project: one(projects, {

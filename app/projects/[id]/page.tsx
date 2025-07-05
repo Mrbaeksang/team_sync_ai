@@ -8,10 +8,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getProjectByIdServerAction } from "@/app/projects/actions"; // Import the server action
+import { Project } from "@/lib/db/schema";
 
 // 최상위 페이지 컴포넌트 (클라이언트 컴포넌트)
 export default function ProjectPage({ params }: { params: { id: string } }) {
-  const [project, setProject] = useState<{ id: string; name: string; description: string } | null>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [inviteLink, setInviteLink] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 

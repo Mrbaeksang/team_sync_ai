@@ -5,6 +5,7 @@ import { projects, surveyResponses } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { SurveyResponse } from "@/lib/db/schema";
 
 // 프로젝트 정보 조회
 async function getProject(projectId: string) {
@@ -62,7 +63,7 @@ export default async function DashboardPage({ params }: { params: { id: string }
               </p>
             ) : (
               <ul className="space-y-4">
-                {responses.map((resp: any) => (
+                {responses.map((resp: SurveyResponse) => (
                   <li key={resp.id} className="border-b last:border-b-0 pb-3">
                     <div className="font-semibold text-foreground mb-1">{resp.teamMemberName}</div>
                     <div className="text-sm text-muted-foreground whitespace-pre-line">{resp.responseContent}</div>
