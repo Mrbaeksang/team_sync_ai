@@ -68,10 +68,12 @@ export async function createGuestUser() {
   const password = generateHashedPassword(generateUUID());
 
   try {
-    return await db.insert(user).values({ email, password }).returning({
+    const [guestUser] = await db.insert(user).values({ email, password }).returning({
       id: user.id,
       email: user.email,
     });
+    console.log('Generated guest user ID:', guestUser.id);
+    return [guestUser];
   } catch (error) {
     throw new ChatSDKError(
       'bad_request:database',

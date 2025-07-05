@@ -8,6 +8,8 @@ import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { auth } from '@/app/(auth)/auth';
+import { createGuestUser } from '@/lib/db/queries';
 
 async function getProjects() {
   return await db.select().from(projects).orderBy(desc(projects.createdAt));
@@ -15,13 +17,17 @@ async function getProjects() {
 
 async function createProject(formData: FormData) {
   'use server';
+  const [guestUser] = await createGuestUser(); // Always create a new guest user for debugging
+  const userId = guestUser.id;
+
   const name = formData.get('name') as string;
   const description = formData.get('description') as string;
   const id = nanoid();
-  // 임시 userId: '1' (실제 인증 연동 시 수정 필요)
+  console.log('Using user ID for project:', userId);
+
   await db.insert(projects).values({
     id,
-    userId: '1',
+    userId: userId,
     name,
     description,
   });

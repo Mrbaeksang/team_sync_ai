@@ -135,30 +135,18 @@
 
 ### 3.5. AI 역할 추천/시각화/수동조정
 
--   **진행 상황**: 미구현 [ ]
+-   **진행 상황**: 부분 구현 [x] (역할 추천 대시보드 페이지 UI 및 설문 응답 조회 기능 구현)
 -   **역할 및 연결 지점**:
-    -   모든 팀원의 설문 응답을 바탕으로 AI가 최적의 역할을 추천하고, 이를 시각적으로 보여주는 대시보드 페이지입니다.
-    -   사용자는 추천된 역할을 수동으로 조정할 수 있습니다.
--   **관련 파일/디렉토리**:
-    -   `app/projects/[id]/dashboard/page.tsx`: 역할 추천 대시보드 UI (미존재)
-    -   `app/projects/[id]/dashboard/actions.ts`: 역할 조정 처리 (Server Actions) (미존재)
-    -   `components/chart-visualization.tsx`: 역할 시각화 컴포넌트 (미존재)
-    -   `lib/ai/tools/assign-roles.ts`: AI 역할 할당 로직 (Google Gemini API 및 AI SDK Tools 활용 예정)
-    -   `lib/db/schema.ts`: `RoleAssignment` 테이블 스키마 정의 (Drizzle ORM을 사용하여 정의 필요)
-    -   `lib/db/queries.ts`: 역할 할당 관련 DB 쿼리 함수 (Drizzle ORM을 사용하여 구현 필요)
+    -   `app/projects/[id]/dashboard/page.tsx`에서 프로젝트의 설문 응답 목록을 조회하여 표시합니다.
+    -   AI 역할 추천 결과 표시를 위한 플레이스홀더 UI가 포함되어 있습니다.
+    -   AI 역할 할당 로직 및 시각화 기능은 아직 미구현입니다.
 
 ### 3.6. 팀 채팅방 자동 생성/실시간 소통
 
--   **진행 상황**: 미구현 [ ]
+-   **진행 상황**: 부분 구현 [x] (채팅방 페이지 플레이스홀더 구현)
 -   **역할 및 연결 지점**:
-    -   역할 분배가 완료된 팀원들이 실시간으로 소통할 수 있는 채팅방 페이지입니다.
--   **관련 파일/디렉토리**:
-    -   `app/projects/[id]/chat-room/page.tsx`: 팀 채팅방 UI (미존재)
-    -   `app/projects/[id]/chat-room/actions.ts`: 채팅 메시지 처리 (Server Actions) (미존재)
-    -   `components/chat.tsx`: 챗 UI 컴포넌트 (존재 확인, 재사용 또는 확장 필요)
-    -   `lib/db/schema.ts`: `ChatRoom`, `ChatMessage` 테이블 스키마 정의 (Drizzle ORM을 사용하여 정의 필요)
-    -   `lib/db/queries.ts`: 채팅 메시지 관련 DB 쿼리 함수 (Drizzle ORM을 사용하여 구현 필요)
-    -   (선택) 실시간 통신 라이브러리 연동 (예: Pusher, Ably 등)
+    -   `app/projects/[id]/chat-room/page.tsx`에 팀 채팅방 UI의 플레이스홀더가 구현되었습니다.
+    -   실시간 채팅 기능 및 메시지 저장 기능은 아직 미구현입니다.
 
 ### 3.7. 관리 대시보드 (추후 확장)
 
