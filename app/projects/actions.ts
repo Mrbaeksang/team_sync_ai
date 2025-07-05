@@ -1,14 +1,14 @@
 'use server';
 
 import { db, createGuestUser } from "@/lib/db/queries";
-import { projects } from "@/lib/db/schema";
+import { projects, Project } from "@/lib/db/schema";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { desc, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 // 프로젝트 목록 조회 Server Action
-export async function getProjectsServerAction() {
+export async function getProjectsServerAction(): Promise<Project[]> {
   return await db.select().from(projects).orderBy(desc(projects.createdAt));
 }
 
@@ -33,7 +33,7 @@ export async function createProjectServerAction(formData: FormData) {
 }
 
 // 프로젝트 ID로 조회 Server Action
-export async function getProjectByIdServerAction(id: string) {
+export async function getProjectByIdServerAction(id: string): Promise<Project | undefined> {
   const [project] = await db.select().from(projects).where(eq(projects.id, id));
   return project;
 }
