@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Project } from "@/lib/db/schema";
+import type { Project } from "@/lib/db/schema";
 
 export function ProjectDetailsClient({ project }: { project: Project }) {
   const [inviteLink, setInviteLink] = useState("");

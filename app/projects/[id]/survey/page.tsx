@@ -11,11 +11,12 @@ import { toast } from "sonner";
 import { saveSurveyResponse } from './actions';
 
 interface SurveyPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>; // ✅ Promise 타입!
 }
 
-export default function SurveyPage({ params }: SurveyPageProps) {
-  const { id: projectId } = params;
+export default async function SurveyPage({ params }: SurveyPageProps) { // ✅ async 함수!
+  const { id: projectId } = await params; // ✅ await로 구조분해
+
   const router = useRouter();
   const [teamMemberName, setTeamMemberName] = useState('');
   const [responseContent, setResponseContent] = useState('');
