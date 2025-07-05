@@ -7,30 +7,25 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { getProjectByIdServerAction } from "@/app/projects/actions"; // Import the server action
 
-// 예시 getProject 함수 (실제로는 서버 액션/DB 연동)
-async function getProject(id: string) {
-  // 여기에 실제 데이터 패칭 로직 구현 필요
-  return {
-    id,
-    name: "예시 프로젝트",
-    description: "이 프로젝트는 ai-chatbot 템플릿과 shadcn/ui 스타일을 따릅니다.",
-  };
-}
-
-// 최상위 async 페이지 컴포넌트
-export default async function ProjectPage({ params }: { params: { id: string } }) {
-  const project = await getProject(params.id);
-  return <ProjectDetails project={project} />;
-}
-
-// 클라이언트 컴포넌트
-function ProjectDetails({ project }: { project: { id: string; name: string; description: string } }) {
+// 최상위 페이지 컴포넌트 (클라이언트 컴포넌트)
+export default function ProjectPage({ params }: { params: { id: string } }) {
+  const [project, setProject] = useState<{ id: string; name: string; description: string } | null>(null);
   const [inviteLink, setInviteLink] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
-    // 클라이언트에서만 실행되도록 체크
+    const fetchProject = async () => {
+      const fetchedProject = await getProjectByIdServerAction(params.id);
+      if (fetchedProject) {
+        setProject(fetchedProject);
+      }
+    };
+    fetchProject();
+  }, [params.id]);
+
+  useEffect(() => {
     if (typeof window !== "undefined" && project?.id) {
       setInviteLink(`${window.location.origin}/projects/${project.id}/survey`);
     }
@@ -43,6 +38,14 @@ function ProjectDetails({ project }: { project: { id: string; name: string; desc
       setTimeout(() => setIsCopied(false), 2000);
     }
   };
+
+  if (!project) {
+    return (
+      <div className="flex flex-col items-center justify-start min-h-screen bg-background px-4 py-12">
+        <p>프로젝트를 불러오는 중...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-background px-4 py-12">

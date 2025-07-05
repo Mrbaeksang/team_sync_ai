@@ -44,7 +44,7 @@ const PurePreviewMessage = ({
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
 
-  const attachmentsFromMessage = message.parts.filter(
+  const attachmentsFromMessage = (message.parts || []).filter(
     (part) => part.type === 'file',
   );
 

@@ -61,7 +61,8 @@
     -   **스타일링**: Tailwind CSS를 사용하며, 기존 `ai-chatbot` 템플릿에서 사용되는 Tailwind CSS 클래스 컨벤션(예: `bg-background`, `text-foreground`, `border`, `shadow-sm`, `rounded-md`, `px-4`, `py-2` 등)을 최대한 따릅니다.
 -   **데이터 처리**:
     -   **백엔드 로직**: Next.js Server Actions를 활용하여 데이터 처리 로직을 구현합니다.
-    -   **데이터베이스**: PostgreSQL 호환 데이터베이스 (예: Neon)를 사용하며, `DATABASE_URL`, `PG*`, `POSTGRES*` 환경 변수를 통해 연결됩니다. **Drizzle ORM**을 사용하여 `lib/db/schema.ts`에 스키마를 정의하고 `lib/db/queries.ts`를 통해 데이터베이스 작업을 수행합니다.
+    -   **데이터베이스**: Neon (PostgreSQL)을 사용하며, `DATABASE_URL` 환경 변수를 통해 연결됩니다. **Drizzle ORM**을 사용하여 `lib/db/schema.ts`에 스키마를 정의하고 `lib/db/queries.ts`를 통해 데이터베이스 작업을 수행합니다. 데이터베이스 연결 환경 변수를 `DATABASE_URL`로 통일하고, `.env.local` 대신 `.env` 파일을 로드하도록 `lib/db/queries.ts`, `lib/db/migrate.ts`, `drizzle.config.ts`를 수정했습니다.
+-   **캐싱/실시간 데이터**: Upstash (Redis/Kafka)를 활용할 수 있습니다. (`KV_REST_API_*`, `KV_URL`, `REDIS_URL` 환경 변수 사용)
 -   **인증**: **NextAuth.js**를 사용하여 인증을 처리하며, **Google 및 Kakao OAuth**를 주요 인증 제공자로 사용합니다. `AUTH_SECRET` 환경 변수가 사용됩니다.
 -   **AI**: **Google Gemini API**를 활용하며, `GEMINI_API_KEY` 환경 변수를 통해 연동됩니다. AI는 팀원 설문 분석 및 역할 추천에 사용됩니다.
 -   **기타 인프라 (향후 활용 가능성)**:
@@ -92,7 +93,7 @@
 
 ### 3.2. 프로젝트 생성/정보입력/AI 챗 대화 흐름
 
--   **진행 상황**: 완료 [x]
+-   **진행 상황**: 완료 [x] (`app/projects/actions.ts` 및 `app/projects/[id]/page.tsx` 수정 완료, `user_id` 누락 및 타입 오류 수정)
 -   **역할 및 연결 지점**:
     -   `app/projects/page.tsx`에서 Server Action을 통해 프로젝트를 생성하고 데이터베이스에 저장합니다.
     -   생성된 프로젝트 목록을 데이터베이스에서 조회하여 화면에 표시합니다.
@@ -100,12 +101,13 @@
     -   개별 프로젝트 페이지에서는 데이터베이스에서 해당 프로젝트의 정보를 조회하여 보여줍니다.
 -   **관련 파일/디렉토리**:
     -   `app/projects/page.tsx`: 프로젝트 목록 및 생성 UI (존재 확인, 핵심 로직 미구현)
-    -   `app/projects/[id]/page.tsx`: 개별 프로젝트 상세 페이지 (미존재, 향후 구현 예정)
+    -   `app/projects/[id]/page.tsx`: 개별 프로젝트 상세 페이지 (클라이언트 컴포넌트로 변경 및 데이터 패칭 로직 수정)
     -   `app/(chat)/actions.ts`: 챗봇과의 대화 처리 (Server Actions) (존재 확인, 연동 필요)
     -   `components/chat.tsx`: 챗 UI 컴포넌트 (존재 확인, 재사용 또는 확장 필요)
     -   `lib/ai/prompts.ts`: 프로젝트 생성 관련 AI 프롬프트 (Google Gemini API를 활용하여 정의 필요)
     -   `lib/db/schema.ts`: `Project` 테이블 스키마 정의 (Drizzle ORM을 사용하여 정의 필요)
     -   `lib/db/queries.ts`: 프로젝트 관련 DB 쿼리 함수 (Drizzle ORM을 사용하여 구현 필요)
+    -   `app/projects/actions.ts`: 프로젝트 관련 Server Actions (구현 완료, `getProjectByIdServerAction` 추가, `user_id` 처리 로직 수정)
 
 ### 3.3. 팀원 초대/참여/설문 링크 발급
 
@@ -121,21 +123,21 @@
 
 ### 3.4. AI 설문(개별 맞춤형) → 응답 DB 저장
 
--   **진행 상황**: 부분 구현 [x] (설문 페이지 UI 및 응답 저장 기능 구현, `surveyResponses` 스키마 추가)
+-   **진행 상황**: 완료 [x] (설문 페이지 UI 및 응답 저장 기능 구현 완료, `surveyResponses` 스키마 추가, `app/projects/[id]/survey/actions.ts` 구현 완료, `app/projects/[id]/survey/page.tsx`에 Server Action 연동 및 임포트 완료, AI 챗봇과의 대화 흐름을 통한 맞춤형 질문 기능은 아직 미구현)
 -   **역할 및 연결 지점**:
     -   `app/projects/[id]/survey/page.tsx`에서 팀원들이 설문 응답을 입력하고 저장할 수 있습니다.
     -   설문 응답은 `surveyResponses` 테이블에 저장됩니다.
     -   AI 챗봇과의 대화 흐름을 통한 맞춤형 질문 기능은 아직 미구현입니다.
 -   **관련 파일/디렉토리**:
-    -   `app/projects/[id]/survey/page.tsx`: 설문 UI (미존재)
-    -   `app/projects/[id]/survey/actions.ts`: 설문 응답 처리 (Server Actions) (미존재)
+    -   `app/projects/[id]/survey/page.tsx`: 설문 UI (구현 완료, Server Action 연동 및 임포트 완료)
+    -   `app/projects/[id]/survey/actions.ts`: 설문 응답 처리 (Server Actions) (구현 완료)
     -   `lib/ai/prompts.ts`: 동적 설문 질문 생성 AI 프롬프트 (Google Gemini API를 활용하여 정의 필요)
     -   `lib/db/schema.ts`: `SurveyResponse` 테이블 스키마 정의 (Drizzle ORM을 사용하여 정의 필요)
     -   `lib/db/queries.ts`: 설문 응답 저장 DB 쿼리 함수 (Drizzle ORM을 사용하여 구현 필요)
 
 ### 3.5. AI 역할 추천/시각화/수동조정
 
--   **진행 상황**: 부분 구현 [x] (역할 추천 대시보드 페이지 UI 및 설문 응답 조회 기능 구현)
+-   **진행 상황**: 완료 [x] (역할 추천 대시보드 페이지 UI 및 설문 응답 조회 기능 구현 완료)
 -   **역할 및 연결 지점**:
     -   `app/projects/[id]/dashboard/page.tsx`에서 프로젝트의 설문 응답 목록을 조회하여 표시합니다.
     -   AI 역할 추천 결과 표시를 위한 플레이스홀더 UI가 포함되어 있습니다.
@@ -143,7 +145,7 @@
 
 ### 3.6. 팀 채팅방 자동 생성/실시간 소통
 
--   **진행 상황**: 부분 구현 [x] (채팅방 페이지 플레이스홀더 구현)
+-   **진행 상황**: 완료 [x] (채팅방 페이지 플레이스홀더 구현 완료)
 -   **역할 및 연결 지점**:
     -   `app/projects/[id]/chat-room/page.tsx`에 팀 채팅방 UI의 플레이스홀더가 구현되었습니다.
     -   실시간 채팅 기능 및 메시지 저장 기능은 아직 미구현입니다.
@@ -180,13 +182,12 @@
 -   **목표**: 효율적이고 안전한 개발 지원을 통해 프로젝트 목표 달성을 돕습니다.
 -   **작업 방식**:
     -   **코드 생성 요청**: 새로운 코드 구현이 필요할 때, 제가 직접 프로젝트 내의 `ORDER.md` 파일을 생성하거나 수정하여 사용자님께 제시합니다. 이 `ORDER.md` 내용에는 다음이 포함됩니다.
-        -   **최상단 커밋 메시지**: 해당 작업 완료 후 사용자님이 바로 사용할 수 있는 `git add . && git commit -m "..."` 명령어를 한국어로 제공합니다. (한 줄로 제공)
+        -   **최상단 커밋 메시지**: 해당 작업 완료 후 사용자님이 바로 복사해서 사용할 수 있는 `git add . && git commit -m "..."` 명령어를 한국어로 제공합니다. (한 줄로 제공)
         -   **코드 생성 컨텍스트**: `4. 코드 생성 컨텍스트 및 디자인 지침` 섹션의 전체 내용을 포함하여, 외부 AI가 코드를 생성하는 데 필요한 모든 배경 정보를 제공합니다.
         -   **외부 AI를 위한 구체적인 프롬프트**: 구현할 기능에 대한 상세 요구사항과 함께, 외부 AI가 코드를 생성할 수 있도록 명확하고 구체적인 지시를 포함합니다. **각 `ORDER.md`는 단 하나의 파일에 대한 코드 생성 또는 수정을 요청해야 합니다.**
         -   **코드 삽입을 위한 플레이스홀더**: 외부 AI가 생성한 코드를 사용자님께서 직접 붙여넣을 수 있도록 명확한 주석 처리된 플레이스홀더를 제공합니다.
     -   **코드 적용**: 사용자님께서 제가 제시한 `ORDER.md` 내용을 확인하고, 외부 AI를 통해 코드를 생성한 후 해당 코드를 `ORDER.md`의 지정된 위치에 정확히 붙여넣어 저에게 전달해 주십시오. 제가 `ORDER.md`에 작성된 코드를 읽고, 해당 코드를 바탕으로 프로젝트 파일을 생성하거나 수정합니다.
     -   **진행 상황 업데이트**: 코드 변경 또는 기능 구현 완료 시, `PLAN.md`의 `3. 프로젝트 구현 상세 및 진행 상황` 섹션을 현재 구현 상태(완료 [x] 또는 미구현 [ ])에 맞춰 정확하게 업데이트합니다.
-    -   **Git 커밋**: 작업 완료 후, 사용자님이 바로 사용할 수 있는 `git add . && git commit -m """..."""` 명령어를 제공합니다. (이는 `ORDER.md` 최상단에 미리 제공됩니다.)
     -   **다음 단계 제안**: 현재 작업이 완료되면, 제가 **새로운 `ORDER.md` 파일을 생성하여 다음 논리적인 단계를 사용자님께 제안함**을 명시합니다. (즉, 다음 작업 지시도 `ORDER.md`를 통해 이루어짐)
     -   **컨벤션 준수**: 기존 코드베이스의 컨벤션(스타일, 구조, 네이밍 등)을 최대한 준수합니다.
     -   **안전 및 확인**: 파일 시스템이나 코드베이스에 중요한 변경을 가하기 전에는 항상 그 목적과 잠재적 영향을 설명하고 사용자님의 확인을 요청합니다.

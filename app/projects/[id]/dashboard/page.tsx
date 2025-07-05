@@ -1,5 +1,6 @@
 // app/projects/[id]/dashboard/page.tsx
 
+import * as React from "react";
 import { db } from "@/lib/db/queries";
 import { projects, surveyResponses } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
@@ -21,7 +22,8 @@ async function getSurveyResponses(projectId: string) {
 }
 
 // 대시보드 페이지
-export default async function DashboardPage({ params }: { params: { id: string } }) {
+export default async function DashboardPage(props: { params: Promise<{ id: string }> }) {
+  const params = await React.use(props.params);
   const project = await getProject(params.id);
   const responses = await getSurveyResponses(params.id);
 
